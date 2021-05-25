@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +16,52 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<section data-markdown data-separator="---$" data-separator-vertical="--">
+					<script type="text/template">
+						## Deep Learning-based Latent Source Analysis for Source-aware Audio Manipulation
+
+						Woosung Choi (ws_choi@korea.ac.kr)
+		
+						--
+		
+						#### Deep Learning-based
+						#### Latent Source Analysis 
+						#### for Source-aware Audio Manipulation
+		
+						Woosung Choi (ws_choi@korea.ac.kr)
+		
+						Ph.D. Candidate, Department of Computer Science
+		
+						College of Informatics, Korea University
+		
+						June 01, 2021
+		
+						--
+		
+						Supervisor: Prof. Soonyoung Jung
+
+						--
+
+						## Opening BGM
+						<audio controls src="assets/www_vocals.mp3" data-autoplay>Opening bgm</audio>
+
+						--
+						## Audio Manipulation on Specified Sources!
+						
+						- What a wonderful world - Louis Armstrong
+						
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/p42esUHqq8Q?start=16" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+						```python
+						model.manipulate_track(audio.T, "remove vocals") 
+						```
+
+
+					</script>
+				</section>
+
+				<section data-markdown="markdown/thesis.md" data-separator="---$" data-separator-vertical="--">
 			</div>
 		</div>
 
