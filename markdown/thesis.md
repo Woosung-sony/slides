@@ -1,8 +1,8 @@
 ## Contents
 
-1. Introduction
+1. Introduction  
 
-2. Research Interests
+2. Frequency Transformation for Dedicated Source Separation
 
 3. Selected Publications
 
@@ -12,26 +12,7 @@
 
 ---
 
-## Woosung Choi
-
-A Ph.D. Candidate @ Department of Computer Science, Korea University
-
-- `2009-2013`BSc Computer Science Education (3.99/4.5)
-  - Korea University, Seoul, Korea
-- `2013-2021.08.`Ph.D. ***(expected)\*** Computer Science (4.47/4.5)
-  - Advisor: Prof. Soonyoung Jung
-  - Korea University, Seoul, Korea
-
----
-
-## Research Interests
-
-- My research interests include, but not limited to the following areas
-  - Audio Manipulation with Natural Language Interfaces
-  - Source Separation, Noise Canceling, Dereverberation
-  - Speech-to-Text (ASR) or Text-to-Speech (TTS)
-
-## Development Timeline
+## Timeline
 
 1. Source Separation: mix => vocals, 2019~2020
 2. Source Separation conditioned on an input symbol, 2020

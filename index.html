@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Woosung Choi - Dissertation</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -56,28 +56,149 @@
 						```python
 						model.manipulate_track(audio.T, "remove vocals") 
 						```
-
-
 					</script>
 				</section>
 
-				<section data-markdown="markdown/thesis.md" data-separator="---$" data-separator-vertical="--">
+				<section data-markdown data-separator="---$" data-separator-vertical="--">
+					<script type="text/template">
+						## Contents
+						- Introduction
+
+						- Part 1: FTB for Source Separaton
+						- Part 2: Latent Source Analysis for Source Separation
+						- Part 3: Beyond Source Separation: AMSS!
+
+						- Discussion and Conclusion
+
+						---
+
+						### Introduction
+
+						- It is difficult for non-experts to edit multimedia content such as image, audio, and video.
+
+						![](assets/image_editing.jpg)
+
+						--
+
+						### Object Removal with Photoshop
+
+						![https://digitalsynopsis.com/design/photoshop-remove-unwanted-objects-content-aware-fill/](assets/photoshop.jpg)
+
+						https://digitalsynopsis.com/design/photoshop-remove-unwanted-objects-content-aware-fill/
+
+						--
+
+						### Image Inpainting - Nvidia
+
+						- When deep learning meets image editing
+
+						![](assets/nvidia.gif) 
+
+						https://www.nvidia.com/en-us/research/ai-playground/
+
+						--
+						
+						### Image Inpainting - Nvidia
+
+						- When deep learning meets image editing
+
+						![](assets/nvidia2.gif)
+
+						https://www.nvidia.com/en-us/research/ai-playground/
+										
+						--
+						
+						### Describe What To Change!
+
+						<img src=assets/dwtc.png width=70%/>
+
+						Liu, Yahui, et al. "**Describe What to Change**: A Text-guided Unsupervised Image-to-Image Translation Approach." Proceedings of the 28th ACM International Conference on Multimedia. 2020.
+
+						--
+
+						### Meanwhile, Machine Learning for Audio ...
+
+						--
+
+						### Audio Manipulation is more challenging 
+
+						![](assets/challenge.png)
+
+						- A sound object (i.e., a waveform sample or frequency bin) is `transparent'
+						- It usually carries information from multiple sources, in contrast to a pixel in an image
+
+						--
+
+						### The goal of this dissertation
+						<p class="fragment" data-fragment-index="2">To design a neural network </p> 
+						<p class="fragment" data-fragment-index="3">that performs audio transformations to user-specified sources (e.g., vocals) of a given audio track </p>
+						<p class="fragment" data-fragment-index="4">according to a given description while preserving other sources not mentioned in the description</p>
+						<br>
+						<p class="fragment" data-fragment-index="5">, also known as AMSS!</p>
+					
+						--
+
+						<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Audio source separation is boring. AMSS is the new cool thing now! Next step I guess is stg like Siri integration into Logic, &quot;Siri, a bit more warmth to vocals, and make the guitar tone more brown. Please.&quot; <a href="https://twitter.com/hashtag/sourceseparation?src=hash&amp;ref_src=twsrc%5Etfw">#sourceseparation</a> <a href="https://twitter.com/hashtag/audioseparation?src=hash&amp;ref_src=twsrc%5Etfw">#audioseparation</a> <a href="https://t.co/VJcKT3JtY7">https://t.co/VJcKT3JtY7</a></p>&mdash; András Barják (@Forevian) <a href="https://twitter.com/Forevian/status/1391492024583561218?ref_src=twsrc%5Etfw">May 9, 2021</a></blockquote> 
+						
+						--
+
+						### Terminologies
+						<p class="fragment" data-fragment-index="2"><b>audio signal</b>: a series of sampled values</p> 
+						<p class="fragment" data-fragment-index="3"><b>frequency</b>: the number of occurrences of a repeating event per unit of time </p>
+						<p class="fragment" data-fragment-index="4"><b>timbre</b>: perceived sound quality of a musical note, </p>
+						<p class="fragment" data-fragment-index="5">, which makes a particular musical instrument or human voice have a different sound from anothe </p>
+
+					</script>
+
+				</section>
+
+				<section data-markdown data-separator="---$" data-separator-vertical="--">
+					<script type="text/template">
+						### Part 1: FTB for Source Separation
+
+						--
+
+						### Part 1: FTB for Source Separation
+						
+						1. **review**: a U-Net for Spectrogram-based Source Separation
+						2. **motivation**: Spectrogram $\neq$ Image
+							 - What's wrong with CNNs and spectrograms for audio processing?
+							 - Alternatives: 1-D CNNs, Dilated CNNs, FTBs, ...
+						3. **solution:** Frequency Transformation Blocks
+							 - Employing Fully-Connected (FC) Layers to capture Freq-to-Freq Dependencies
+							 - (empirical results) Injecting FCs, called FTBs,  into a Fully 2-D Conv U-Net significantly improves SDR performance
+						
+
+					</script>
+				</section>
+	
+
+
+
+
 			</div>
 		</div>
-
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<script src="dist/reveal.js"></script>
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
 			Reveal.initialize({
+				math: {
+					mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+					config: 'TeX-AMS_HTML-full',
+					// pass other options into `MathJax.Hub.Config()`
+					TeX: { Macros: { RR: "{\\bf R}" } }
+					},
 				hash: true,
-
+				slideNumber: true,
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath]
 			});
 		</script>
 	</body>
