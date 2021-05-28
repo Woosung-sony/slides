@@ -116,8 +116,16 @@
 
 						--
 
-						### Meanwhile, Machine Learning for Audio ...
+						### AI-based Image Editing Tools!
+						![](assets/market.png)
 
+						--
+
+						### Meanwhile, Interfaces for Audio ...
+
+						<img src="https://camo.githubusercontent.com/ef1cae7eecfd776267c33da5a314a1d3c5b30a810a62aa855c86523b41ff2f1f/68747470733a2f2f7777772e6e61746976652d696e737472756d656e74732e636f6d2f7479706f3374656d702f706963732f696d672d63652d696e74726f5f7061726167726170685f666163656c6966745f6d6173736976652d38313839323733613135313539363865666632633362656239653261616339632d6d4032782e6a7067" width=60%/>
+
+						It's massive!
 						--
 
 						### Audio Manipulation is more challenging 
@@ -407,15 +415,24 @@
 
 						--
 
-						### 2.4. GPoCM: more complex manipulation method than FiLM
+						#### 2.4. GPoCM: more complex manipulation than FiLM
 						
-						- FiLM (left) vs PoCM (right)
+						<img src="https://imgur.com/A3kAxVS.png" width=50%/>
+
+						FiLM: Feature-wise Linear Modulation
+
+						<img src="https://imgur.com/9A4otVA.png" width=50%/>
 						
-						![width:550](https://imgur.com/A3kAxVS.png) ![width:550](https://imgur.com/9A4otVA.png)
-						
+						PoCM: Point-wise Convolutional Modulation
+
+						--
+						#### 2.4. GPoCM: more complex manipulation than FiLM
+
 						- PoCM is an extension of FiLM. 
 						  - while FiLM does not have inter-channel operations
 						  - PoCM has inter-channel operations
+
+						  <img src="https://imgur.com/9A4otVA.png" width=50%/>
 
 						--
 						
@@ -438,17 +455,6 @@
 				<script type="text/template">
 					### 3. Audio Manipulation with Textual Queries
 					- AMSS: Audio Manipulation on User-Specified Sources with Textual Queries
-					  - Submitted to ACMMM 2021
-					  - demo: http://intelligence.korea.ac.kr/demo/
-						```python
-						model.manipulate_track(audio, 'decrease the volume of bass') 
-						model.manipulate_track(audio, 'pan vocals completely to the left side') 
-						model.manipulate_track(audio, 'apply heavy lowpass to drums, vocals') 
-						model.manipulate_track(audio, 'apply medium highpass to vocals, drums') # == apply highpass to drums, vocals 
-						model.manipulate_track(audio, 'separate vocals, bass, drums') # == extract vocals, drums, bass
-						model.manipulate_track(audio, 'mute bass, drums')  # == get rid of drums, bass
-						model.manipulate_track(audio, 'remove reverb from drums, bass') 
-						```	
 
 				</script>
 			</section>
