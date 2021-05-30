@@ -126,9 +126,19 @@
 						<img src="https://camo.githubusercontent.com/ef1cae7eecfd776267c33da5a314a1d3c5b30a810a62aa855c86523b41ff2f1f/68747470733a2f2f7777772e6e61746976652d696e737472756d656e74732e636f6d2f7479706f3374656d702f706963732f696d672d63652d696e74726f5f7061726167726170685f666163656c6966745f6d6173736976652d38313839323733613135313539363865666632633362656239653261616339632d6d4032782e6a7067" width=60%/>
 
 						It's massive!
+
 						--
 
-						### Audio Manipulation is more challenging 
+						### Audio Editing	
+
+						- In general, we want to edit specific objects in the given audio
+							- e.g., I want to decrease the volume of drums 
+							- (but don't want to mute them)
+						- However, multitrack is usually not observable for non-experts
+
+						--
+
+						### Audio Editing is more challenging 
 
 						![](assets/challenge.png)
 
@@ -453,8 +463,220 @@
 	
 			<section data-markdown data-separator="---$" data-separator-vertical="--">
 				<script type="text/template">
-					### 3. Audio Manipulation with Textual Queries
-					- AMSS: Audio Manipulation on User-Specified Sources with Textual Queries
+					### Part 3. Audio Manipulation with Textual Queries
+					- AMSS 
+						- Audio Manipulation on User-Specified Sources
+					- AML
+						- Audio Manipulation Language
+					
+					--
+
+					### 3.1. AMSS					
+					- AMSS is formally defined as follows:
+						- for the given audio track $A$ and a description $S$,
+						- the AMSS aims to generate a manipulated audio track $A'$ that semantically matches $S$
+						- while preserving contents in $A$ that are irrelevant to $S$,
+						- where $A$ contains signals from multiple sources and $S$ describes how to manipulate audio signals from specific sources in $A$.
+
+					- A source separation task can be viewed as an AMSS task where we want to simply all mute the unwanted sources.
+
+					--
+
+					### 3.2. Scope of the research
+					
+					- As a proof-of-concept, this paper aims to verify that it is possible to train a deep learning model for AMSS.
+					- we focus on modifying specific sources' sonic characteristics (e.g., loudness, panning, frequency content, and dereverberation).
+					
+					--
+
+					### 3.3. Audio Manipulation Language
+
+					- Audio Manipulation Language is proposed based on a probabilistic Context-Free Grammar (CFG)
+					- [Full Grammar](https://kuielab.github.io/AMSS-Net/aml.html)
+					- Query Examples
+						```python
+						model.manipulate_track(audio, 'decrease the volume of bass') 
+						model.manipulate_track(audio, 'pan vocals completely to the left side') 
+						model.manipulate_track(audio, 'apply heavy lowpass to drums, vocals') 
+						model.manipulate_track(audio, 'apply medium highpass to vocals, drums') # == apply highpass to drums, vocals 
+						model.manipulate_track(audio, 'separate vocals, bass, drums') # == extract vocals, drums, bass
+						model.manipulate_track(audio, 'mute bass, drums')  # == get rid of drums, bass
+						model.manipulate_track(audio, 'remove reverb from drums, bass') 
+						```
+					
+					--
+
+					### 3.4. How to train a model for AMSS?
+
+					- Supervised AMSS training
+						- Provided a dataset of triples $\{(A^{(i)}, A'^{(i)}, S^{(i)})\}_{i=1}^{N}$, 
+							- we can train $net$, a neural network, for AMSS in a supervised manner by minimizing $\sum_{i=1}^{N}loss(net(A^{(i)}, S^{(i)}), A'^{(i)})$, where $loss$ is a distance metric such as $L_{2}$.
+						
+						- However, there were no datasets available that directly address AMSS currently.
+							- For AMSS training, we propose a training framework that uses a multitrack dataset such as Musdb18 \cite{musdb18}. 
+							- By applying Digital Signal Processing (DSP) to target sources of a given multitrack audio file, we can generate an AMSS triple on-the-fly.
+
+					--
+					#### 3.4. AMSS triple generators for Supervised AMSS Training
+
+					- $\sum_{i=1}^{N}loss(net(A^{(i)}, S^{(i)}), A'^{(i)})$,
+					  - $A^{(i)}$: audio before manipulation
+					  - $A'^{(i)}$: audio after manipulation
+					  - $S^{(i)}$: description
+					
+					- An example of AMSS triple generator based on DSP
+					  ![width:900](assets/training_framework.png)
+					
+					  --
+
+					  #### 3.5 Another challenge: Sound objects are `transparent'
+					  
+					  - ManiGAN cannot directly address AMSS becuase audio and image are different.
+					  - Unlike images, sound objects are `transparent';
+						- a pixel in an image generally corresponds to a single visual object, 
+						- whereas a sound object (e.g., a sample in a wave, a frequency bin in a spectrogram) does not only carry information of a single source.
+					  
+						![](assets/challenge.png)
+					  
+					  --
+					  
+					  ### 3.6. AMSS-Net
+
+					  --
+
+					  ### 3.6. Conceptual View of AMSS-Net
+					  
+					  ![](assets/conceptual.png)
+					  
+					  - extract ***latent sources*** from a mixture into latent source
+					  - and **selectively manipulates** the feature map, while preserving irrelevant latent sources.
+					  
+					  --
+					  
+					  #### 3.6. Latent Sources
+					  
+					  Proposed for source separation by existing works.
+					  
+					  -  Wisdom, Scott, et al. "Unsupervised Sound Separation Using Mixture Invariant Training." (2020). Neurips
+						  > The model is trained to separate this input into a variable number of latent sources, such that the separated sources can be remixed to approximate the original mixtures.
+					  
+					  - Woosung Choi et al. LaSAFT
+						- There are much more 'instruments' we have to consider in fact
+					  female-classic-soprano, male-jazz-baritone ... ∈ 'vocals'
+					  kick, snare, rimshot, hat(closed), tom-tom ... ∈ 'drums'
+					  contrabass, electronic, walking bass piano (boogie woogie) ... ∈ 'bass'
+					  
+					  
+					  --
+					  
+					  ## AMSS-Net
+					  
+					  - Overview: A conditioned Dense U-Net structure 
+						- similar to ***MMDenseNet*** with a conditioning mechanism
+						![](assets/architecture.png) 
+					  
+					  - Decoder
+						![](assets/decoder.png)
+					  
+					  --
+					  
+					  ## Decoding Block
+					  
+					  ![](assets/decoder.png)
+					  
+					  - Input
+						- $X_{D}^{K}$: features from the previous decoding block
+						- $X_{E}^{K}$: features from the skip connection
+						- $w\in \mathbb{R}^{L\times E}$: word features
+					  --
+					  
+					  ## Decoding Block: Latent Source Extraction
+					  
+					  ![](assets/decoder.png)
+					  
+					  - Internel features
+						- $V^{ch}\in\mathbb{R}^{M\times T \times F}$: extracted features of latent sources
+						  - We assume that each latent source is isolated in a separate channel
+					  
+					  --
+					  
+					  ## Decoding Block: Selective Manipulation based on three PoCMs
+					  
+					  ![](assets/decoder.png)
+					  
+					  - Internel features
+						- $V^{ch}\in\mathbb{R}^{M\times T \times F}$: extracted features of latent sources
+						  - We assume that each latent source is isolated in a separate channel
+						- $V'^{ch} \in\mathbb{R}^{M\times T \times F}$: selectively manipulated features
+						  - if $i^{th}$ latent source should be preserved for the given input, then the $i^{th}$ channel of $V'^{ch}$ would be trained to have near zero values.
+					  
+					  --
+					  
+					  ## PoCM (from previous work)
+					  
+					  - FiLM (left) vs PoCM (right)
+					  
+					  ![width:550](https://imgur.com/A3kAxVS.png) ![width:550](https://imgur.com/9A4otVA.png)
+					  
+					  - PoCM is an extension of FiLM
+						- while FiLM does not have inter-channel operations
+						- PoCM has inter-channel operations
+					  
+					  - PoCM can be viewed as a channel-level affine transformation
+						- easy to implement and computationally cheep!
+						
+					  --
+					  
+					  ## PoCM (from previous work)
+					  
+					  - PoCM is an extension of FiLM
+					  
+						- $FiLM(X^{i}_{c}|\gamma_{c}^{i},\beta_{c}^{i}) =  \gamma_{c}^{i} \cdot X^{i}_{c} + \beta_{c}^{i}$
+					  
+						- $PoCM(X^{i}_{c}|\omega_{c}^{i},\beta_{c}^{i}) = \beta_{c}^{i} + \sum_{j}{\omega_{cj}^{i} \cdot X^{i}_{j}}$
+						  - where $\gamma_{c}^{i}$ and $\beta_{c}^{i}$ are parameters generated by the condition generator, and $X^{i}$ is the output of the $i^{th}$ decoder's intermediate block, whose subscript refers to the $c^{th}$ channel of $X$
+					  
+						  ![width:500](https://imgur.com/9A4otVA.png)
+					  
+					  --
+					  
+					  ## Decoding Block: SMPoCM
+					  
+					  - (SMPoCM) Selective Manipulation by Point-wise Convolutional Modulation
+					  
+						- $SMPoCM(X|\theta) = (1-s) \odot X + g \odot tanh(PoCM(s \odot X, \theta_{m}))$
+						  - , where
+							- $s=PoCM(X, \theta_{s})$: selective gate
+							- $g=PoCM(X, \theta_{g})$: input gate
+							- $tanh(PoCM(s \odot X, \theta_{m}))$: manipulation
+					  
+					  --
+					  
+					  ## Decoding Block: Channel-wise Skip Attention
+					  
+					  ![](assets/decoder.png)
+					  
+					  - The goal of CSA is to minimize information loss during channel reconstruction to preserve other features that are irrelevant to the description.
+					  
+					  - The attention weight $CSA(Q^{ch}_{t},K^{ch}_{t})_{i,j}$ represents the correlation between the $i^{th}$ channel of the original audio features and the $j^{th}$ latent source channel of the decoded audio features.
+					   
+					  --
+					  
+					  ## Decoding Block: Channel-wise Skip Attention (2)
+					  
+					  ![](assets/decoder.png)
+					  
+					  - $Q^{ch}$: query features from the skip connection
+						- it is ***not manipulated***
+					  - $K^{ch}$: key features after latent source extraction
+						- it is ***not manipulated***
+					  - $V'^{ch} \in\mathbb{R}^{M\times T \times F}$: selectively **manipulated**
+					  
+					  --
+					  
+					  ## Experimental Result
+					  
+					  ![](assets/exp.png)
 
 				</script>
 			</section>
