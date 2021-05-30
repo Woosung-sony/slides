@@ -171,6 +171,83 @@
 				</section>
 
 				<section data-markdown data-separator="---$" data-separator-vertical="--">
+
+					<script type="text/template">
+						## Teaser demonstration
+						
+						Demostration: What AMSS-Net can perform
+
+						--
+
+						### Prograssive Manipulation (1)
+
+						- An audio clip may contain noises
+							- such as people shouting noise in the middle of a concert.
+						- For example, in the above youtube (from the movie Begin again),
+							- a man shouts
+								- (starting from 0:08 in the original audio clip in the table below)
+							- in the middle of a rooftop busking to ask them to stop playing
+
+						<center>
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/3euj8m2_pug?rel=0&start=199&end=209&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen></iframe>						
+						</center>
+
+						--
+						### Prograssive Manipulation (1)
+
+						- We can also observe *reflections of some sounds*, especially from the kick drums, which might annoy some listeners.
+						- We perceive them more severe when we increase the volume of those instruments (the operation 1 in the table below)
+						- Then, we can make a better audio clip to remove unwanted sounds or remove the *reverberation effect* with AMSS-Net as follows.
+
+						<center>
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/3euj8m2_pug?rel=0&start=199&end=209&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen></iframe>						
+						</center>
+
+						--
+
+						<font size=4em>
+						<table>
+							<thead>
+							  <tr>
+								<th>order</th>
+								<th>description</th>
+								<th style="text-align: center">Audio</th>
+								<th style="text-align: center">Spectrogram</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td>0</td>
+								<td>original</td>
+								<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/audios/beginagain original.mp3" type="audio/mp3"></audio></td>
+								<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/audios/beginagain original spec.png"></td>
+							  </tr>
+							  <tr>
+								<td>1</td>
+								<td>increase the volume of drums</td>
+								<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/audios/beginagain increase the volume of drums.mp3" type="audio/mp3"></audio></td>
+								<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/audios/beginagain increase the volume of drums spec.png"></td>
+							  </tr>
+							  <tr>
+								<td>2</td>
+								<td>remove reverb from bass, drums</td>
+								<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/audios/beginagain remove reverb from bass, drums.mp3" type="audio/mp3"></audio></td>
+								<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/audios/beginagain remove reverb from bass, drums spec.png"></td>
+							  </tr>
+							  <tr>
+								<td>3</td>
+								<td>mute vocals</td>
+								<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/audios/beginagain mute vocals.mp3" type="audio/mp3"></audio></td>
+								<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/audios/beginagain mute vocals spec.png"></td>
+							  </tr>
+							</tbody>
+						  </table>		
+						</font>				
+
+					</script>
+				</section>
+
+				<section data-markdown data-separator="---$" data-separator-vertical="--">
 					<script type="text/template">
 						### Part 1: FTB for Source Separation
 
@@ -695,7 +772,7 @@
 
 					#### 3.5. Decoding: Selective Manipulation based on three PoCMs
 					  
-					=> Recall that we desgined PoCM in our [previous work](#/4/8)
+					=> Recall that we desgined PoCM in our [previous work](#/5/8)
 						
 					--
 			  
@@ -734,7 +811,7 @@
 						- it is ***not manipulated***
 					- $K^{ch}$: key features after latent source extraction
 						- it is ***not manipulated***
-					- $V'^{ch} \in\mathbb{R}^{M\times T \times F}$: selectively **manipulated**
+					- $V'^{ch}$ $\in\mathbb{R}^{M\times T \times F}$: selectively **manipulated**
 					
 						![](assets/decoder.png)
 
@@ -752,7 +829,7 @@
 					- in which each channel corresponds to a specific latent source,
 						- we generate an audio track from a single latent source channel,
 							- During the last decoding block, 
-								- we mask all channels in the manipulated feature map $V′^{ch}$
+								- we mask all channels in the manipulated feature map $V'^{ch}$
 								- except for a single latent source channel
 							- and fed it to the remaining sub-networks 
 								- to generate the audio track.
@@ -810,8 +887,68 @@
 					  </table>
 					</font>
 
+					--
 
+					### Discussion 2: Use-cases
+					
+					- What AMSS can perfrom: recall [this](#3/3)					
+					- More use-cases: see [this](https://kuielab.github.io/AMSS-Net/progresive.html)
+					- Recommendation: 
+						- listen with your earphones or headphones please.
+					
+					--
 
+					### Discussion 3: Ablation Study
+
+					- Methods based on neural networks sometimes suffer from artifacts, which are not present in the original source.
+					- Although they sound negligible after a single manipulation task, they can be large enough to be perceived after progressively applying several.
+					- To investigate artifacts created by progressive manipulation, we apply the same AMSS task ``apply highpass to drums’’ to a track in a progressive manner.
+
+					--
+					<font size=5em>
+					<table>
+						<thead>
+						  <tr>
+							<th style="text-align: center">model</th>
+							<th style="text-align: center">desc x times</th>
+							<th style="text-align: center">Audio</th>
+							<th style="text-align: center">Spectrogram</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr>
+							<td style="text-align: center">origin</td>
+							<td style="text-align: center">N/A</td>
+							<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/ls/school boy origin.mp3" type="audio/mp3"></audio></td>
+							<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/ls/school boy origin spec.png"></td>
+						  </tr>
+						  <tr>
+							<td style="text-align: center">target</td>
+							<td style="text-align: center">N/A</td>
+							<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/ablation//school boy gt.mp3" type="audio/mp3"></audio></td>
+							<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/ablation//school boy gt spec.png"></td>
+						  </tr>
+						  <tr>
+							<td style="text-align: center">amssnet</td>
+							<td style="text-align: center">apply highpass to drums x 20</td>
+							<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/ablation//school boy amssnet.mp3" type="audio/mp3"></audio></td>
+							<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/ablation//school boy amssnet spec.png"></td>
+						  </tr>
+						  <tr>
+							<td style="text-align: center">wo_smpocm</td>
+							<td style="text-align: center">apply highpass to drums x 20</td>
+							<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/ablation//school boy wo_smpocm.mp3" type="audio/mp3"></audio></td>
+							<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/ablation//school boy wo_smpocm spec.png"></td>
+						  </tr>
+						  <tr>
+							<td style="text-align: center">wo_csa</td>
+							<td style="text-align: center">apply highpass to drums x 20</td>
+							<td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="https://kuielab.github.io/AMSS-Net/ablation//school boy wo_csa.mp3" type="audio/mp3"></audio></td>
+							<td style="text-align: center"><img src="https://kuielab.github.io/AMSS-Net/ablation//school boy wo_csa spec.png"></td>
+						  </tr>
+						</tbody>
+					  </table>
+					</font>
 
 				</script>
 			</section>
