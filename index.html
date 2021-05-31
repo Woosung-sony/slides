@@ -821,7 +821,7 @@
 					
 					![](assets/exp.png)
 
-					---
+					--
 
 					### Discussion 1: Latent Source Channel
 
@@ -950,6 +950,46 @@
 					  </table>
 					</font>
 
+					--
+
+					### Discussion 4: about Training dataset
+
+					- AMSS-Net can also be trained with a more complicated dataset
+						- based on a realistic audio mixing dataset
+						- such as [IDMT-SMT-Audio-Effects](https://www.idmt.fraunhofer.de/en/business_units/m2d/smt/audio_effects.html) dataset
+					- It can also create synergy 
+						- by combined with machine-learning-based audio mixing methods
+
+					--
+					
+					### Discussion 5: Limitation
+
+					- This study is limited to model relatively simpler AMSS tasks
+					- One can extend this work to provide more complex AMSS tasks 
+						- such as distortion and reverberation
+					- Each AMSS task in this paper
+						- only deals with a single type of manipulations, 
+						- but one canextend this work to provide multiple types of tasks
+						- such as "apply reverb to vocals and apply lowpass to drums"
+					- Also, this work is easily extendable
+						- to support a more user-friendly interface
+						- For example, adopting unsupervised training frameworks 
+							- such as Mixture of Mixture (MoM) to train AMSS on annotated audio datasets such as clotho might enable a natural language query interface
+
+					---
+
+					### Conclusion
+
+					- This dissertation proposes two neural networks for source separation 
+					- and one neural network for AMSS
+					- In each domain, the proposed networks show promising results 
+						- achieving the state-of-the-art performance on the existing benchmark or the proposed benchmark for AMSS.  
+					- Decreasing the difficulty of audio editing will make more users create, edit, manipulate, and share their audio files. 
+					- Future work will extend it to provide more complex AMSS tasks such as distortion and reverberation by adopting state-of-the-art methods such as Generative Adversarial Networks (GAN).
+					
+
+
+					
 				</script>
 			</section>
 
