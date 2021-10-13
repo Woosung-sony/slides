@@ -55,9 +55,8 @@ Choi, Woosung, et al. "Investigating u-nets with various intermediate blocks for
   - [FUSS(Free Universal Sound Separation)](https://paperswithcode.com/dataset/fuss)
 
 ---
+
 ## 1.1. Spectrogram-based Source Separation
-- Audio Equalizer - Eliminate signals with unwanted frequencies
-  ![](https://imgur.com/u0AoskM.png)
 
 - Spectrogram-based Source Separation
   1. Apply Short-Time Fourier Transform (STFT) on a mixture waveform to obtain the input spectrograms.
