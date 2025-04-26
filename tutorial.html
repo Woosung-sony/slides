@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Woosung Choi - Dissertation</title>
+
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/white.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+
+                <section data-markdown data-separator="---$" data-separator-vertical="--">
+                    <script type="text/template">
+                        ## 인공신경망 기초
+
+                        고등학생을 위한 1시간 강의  
+                        (Perceptron과 Multi-Layer Perceptron 실습 포함)
+                        
+                        --
+                        
+                        ### 인공신경망(Artificial Neural Network)이란?
+                        
+                        - 뇌의 뉴런 구조를 본떠 만든 기계학습 모델
+
+                        <br>
+
+                        
+                        <img src=https://i.namu.wiki/i/lkNBCkSmwDw73x2DiASgr8YYYX14mSFEJxy3rQTQLE1o911U0EIGkVIq4xeRT8U0s28Fs_ImdBZ27ixfT8vGo2HaNL_7z8VHi7On4bAN-BpLTlZijfwCbnr3BKsroUrLVjzHhNbk-HhrI-e43eqYIfiz3dMsym-60GePdQOssYo.svg width=40% height=70%/>
+                        <img src=https://upload.wikimedia.org/wikipedia/commons/6/60/ArtificialNeuronModel_english.png width=40% height=40%/>
+
+                        --
+                        
+                        ### 전투력 측정: AND GATE를 학습할 수 있을까?
+                        
+                        - [AND 게이트](https://ko.wikipedia.org/wiki/AND_%EA%B2%8C%EC%9D%B4%ED%8A%B8)는 논리곱을 구현하는 기본 디지털 논리 게이트
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>x₁</th>
+                                <th>x₂</th>
+                                <th>y</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                            <tr><td>1</td><td>1</td><td>1</td></tr>
+                            </tbody>
+                        </table>
+
+                        - 물론 python으로 아주 간단하게 구현 가능
+                        ```pyton
+                        def and_gate(x1, x2):
+                            return x1 & x2
+                        ```
+                        - 이렇게 말고, 인공신경망으로 구현해보자! 
+                        
+                        --
+
+                        ### Perceptron for AND Gate
+
+                        - 연결의 강도 ~ weight, 역치 ~ bias
+                        <br>
+                        <img src=https://i.namu.wiki/i/lkNBCkSmwDw73x2DiASgr8YYYX14mSFEJxy3rQTQLE1o911U0EIGkVIq4xeRT8U0s28Fs_ImdBZ27ixfT8vGo2HaNL_7z8VHi7On4bAN-BpLTlZijfwCbnr3BKsroUrLVjzHhNbk-HhrI-e43eqYIfiz3dMsym-60GePdQOssYo.svg width=30% height=70%/>
+                        <img src=https://upload.wikimedia.org/wikipedia/commons/6/60/ArtificialNeuronModel_english.png width=30% height=40%/>
+                        <br>
+
+                        ```python
+                        # 2. 퍼셉트론 구현 - AND Gate
+                        def activation(x):
+                            return 1 if x > 0 else 0
+                        
+                        def perceptron(x1, x2, w1, w2, b):
+                            output = w1 * x1 + w2 * x2 + b
+                            return activation(output)
+                        ```
+
+
+
+                        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Dirac_distribution_CDF.svg/650px-Dirac_distribution_CDF.svg.png width=20% height=40%/>
+                        <img src=https://i.namu.wiki/i/lkNBCkSmwDw73x2DiASgr4FtUbp6bSFmeCFQz6eiUonw6cGwjOCqBxDZ45IJEtZDSc4HM0HzYOO3c-HgtK-bKTpt0sBXHLM4DnnnhblIAWA.bmp width=20% />
+
+                        --
+
+                        --
+
+                        ### Perceptron for AND Gate
+
+                        ```python
+                        # 2. 퍼셉트론 구현 - AND Gate
+                        def activation(x):
+                            return 1 if x > 0 else 0
+                        
+                        def perceptron(x1, x2, w1, w2, b):
+                            output = w1 * x1 + w2 * x2 + b
+                            return activation(output)
+                        
+                        # 테스트
+                        print("AND Gate")
+                        for x1 in [0, 1]:
+                            for x2 in [0, 1]:
+                                print(f"{x1} AND {x2} = {perceptron(x1, x2, w1=1, w2=1, b=-1.5)}")
+                        ```
+                        
+                                                
+                        ```text
+                        AND Gate
+                        0 AND 0 = 0
+                        0 AND 1 = 0
+                        1 AND 0 = 0
+                        1 AND 1 = 1
+                        ```          
+                        
+                        [colab](https://colab.research.google.com/drive/19AaSvb__qePUEqO7pt1uZIe_oqu-jdOD#scrollTo=_rkxi1hk2mEu&line=1&uniqifier=1)
+                        
+                        --
+                        
+                        ## Perceptron
+
+                        ```python
+
+                        --
+                        
+                        Perceptron 예시:  
+                        - 가중치: w₁=1, w₂=1  
+                        - 편향: b = -1.5  
+                        - 활성화 함수: 계단 함수
+                        
+                        --
+                        
+                        ### 어떻게 학습하는가?
+                        
+                        - **Epoch**: 전체 데이터를 몇 번 반복 학습할지  
+                        - **Activation Function**: 출력을 결정하는 함수 (예: ReLU, Sigmoid)  
+                        - **Loss**: 정답과 출력값 차이  
+                        - **Gradient Descent**: 오차를 줄이는 방향으로 가중치 수정  
+                        - **Learning Rate**: 얼마나 조금씩 수정할지 결정
+                        
+                        --
+                        
+                        ### 문제점: XOR 게이트는 퍼셉트론으로 해결 못 함 ❌
+                        
+                        입력 | 출력  
+                        --|--  
+                        0, 0 | 0  
+                        0, 1 | 1  
+                        1, 0 | 1  
+                        1, 1 | 0
+                        
+                        - 직선 하나로 나눌 수 없음 → 비선형 문제
+                        
+                        --
+                        
+                        ### Multi-Layer Perceptron (MLP)
+                        
+                        - 여러 개의 퍼셉트론 층을 쌓은 구조  
+                        - 은닉층(Hidden Layer)을 통해 비선형 문제 해결
+                        
+                        입력 → 은닉층 → 출력층  
+                        → 더 복잡한 문제도 해결 가능!
+                        
+                        --
+                        
+                        ### 선형 vs 비선형 문제
+                        
+                        - 선형: 직선으로 구분 가능  
+                        - 비선형: 곡선이나 복잡한 경계 필요  
+                        - XOR 문제는 비선형 → MLP 필요
+                        
+                        (시각화 이미지 삽입 가능)
+                        
+                        --
+                        
+                        ### 실습: 시각화된 학습 (MLP 직접 체험해보기)
+                        
+                        [https://playground.tensorflow.org/](https://playground.tensorflow.org/)
+                        
+                        - 입력 노드 선택  
+                        - Hidden Layer 조절  
+                        - Activation Function 바꿔보기  
+                        - 데이터 분류 결과 확인
+                        
+                        --
+
+                    </script>
+                </section>
+
+
+
+
+
+            </div>
+        </div>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/math/math.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                math: {
+                    mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+                    config: 'TeX-AMS_HTML-full',
+                    // pass other options into `MathJax.Hub.Config()`
+                    TeX: { Macros: { RR: "{\\bf R}" } }
+                    },
+                hash: true,
+                slideNumber: true,
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath]
+            });
+        </script>
+    </body>
+</html>
