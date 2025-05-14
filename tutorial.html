@@ -42,19 +42,63 @@
                         ### 인공신경망(Artificial Neural Network)이란?
                         
                         - 뇌의 뉴런 구조를 본떠 만든 기계학습 모델
-                            - 뉴런간 연결이 얼마나 강한가?: weight
+                            - 뉴런간 연결 구조: [graph structure](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics))
+                            - 뉴런간 연결 강도: weight
+                            - 뉴런의 활성 결정 방법: activation function
                             - 뉴런의 역치: bias / threshold
-                            - 뉴런의 활성화 여부: activation function
                         <br>
                         <img src=https://i.imgur.com/kj5i6dH.gif width=40%/>
                         <img src=https://upload.wikimedia.org/wikipedia/commons/6/60/ArtificialNeuronModel_english.png width=40%/>
                         <br>
+                        - 신경망을 학습하는 방법: ?
+
                         
                         --
+
+                        ### [Perceptron (퍼셉트론)](https://ko.wikipedia.org/wiki/%ED%8D%BC%EC%85%89%ED%8A%B8%EB%A1%A0): 뉴런 하나 모델링해보기
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>항목</th>
+                                    <th>설명</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>입력</td>
+                                    <td>$x_1$, $x_2$</td>
+                                </tr>
+                                <tr>
+                                    <td>연결강도</td>
+                                    <td>$w_1$, $w_2$</td>
+                                </tr>
+                                <tr>
+                                    <td>뉴런의 역치</td>
+                                    <td>$b$</td>
+                                </tr>
+                                <tr>
+                                    <td>뉴런의 활성 결정 방법</td>
+                                    <td><a href="https://en.wikipedia.org/wiki/Heaviside_step_function">unit step function</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        $y = step$_$function(w_1 * x_1 + w_2 * x_2 - b) $
+                        <br>
+                        <img src=https://i.imgur.com/kj5i6dH.gif width=30%/>
+                        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Dirac_distribution_CDF.svg/650px-Dirac_distribution_CDF.svg.png width=20% />
+                        <img src=https://i.namu.wiki/i/lkNBCkSmwDw73x2DiASgr4FtUbp6bSFmeCFQz6eiUonw6cGwjOCqBxDZ45IJEtZDSc4HM0HzYOO3c-HgtK-bKTpt0sBXHLM4DnnnhblIAWA.bmp width=20% />
+
+
+
+                        --
+
                         
-                        ### 전투력 측정: AND GATE를 학습할 수 있을까?
-                        
-                        - [AND 게이트](https://ko.wikipedia.org/wiki/AND_%EA%B2%8C%EC%9D%B4%ED%8A%B8)는 논리곱을 구현하는 기본 디지털 논리 게이트
+                        ### 인공신경으로 구현해보는 AND GATE
+
+                        - 목표: [AND 게이트](https://ko.wikipedia.org/wiki/AND_%EA%B2%8C%EC%9D%B4%ED%8A%B8)
+                        <font size=5em>
                         <table>
                             <thead>
                             <tr>
@@ -70,40 +114,9 @@
                             <tr><td>1</td><td>1</td><td>1</td></tr>
                             </tbody>
                         </table>
-
-                        - 물론 python으로 아주 간단하게 구현 가능
-                        ```pyton
-                        def and_gate(x1, x2):
-                            return x1 & x2
-                        ```
-                        - 이렇게 말고, 인공신경망으로 구현해보자! 
-                        
-                        --
-
-                        ### Perceptron for AND Gate
-
-                        - 연결의 강도 ~ weight, 역치 ~ bias
-                        <br>
-                        <img src=https://i.imgur.com/kj5i6dH.gif width=30% height=70%/>
-                        <img src=https://upload.wikimedia.org/wikipedia/commons/6/60/ArtificialNeuronModel_english.png width=30% height=40%/>
-                        <br>
-
-                        ```python
-                        # 2. 퍼셉트론 구현 - AND Gate
-                        def activation(x):
-                            return 1 if x > 0 else 0
-                        
-                        def perceptron(x1, x2, w1, w2, b):
-                            output = w1 * x1 + w2 * x2 + b
-                            return activation(output)
-                        ```
+                        </font>
 
 
-
-                        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Dirac_distribution_CDF.svg/650px-Dirac_distribution_CDF.svg.png width=20% height=40%/>
-                        <img src=https://i.namu.wiki/i/lkNBCkSmwDw73x2DiASgr4FtUbp6bSFmeCFQz6eiUonw6cGwjOCqBxDZ45IJEtZDSc4HM0HzYOO3c-HgtK-bKTpt0sBXHLM4DnnnhblIAWA.bmp width=20% />
-
-                        --
 
                         --
 
@@ -117,40 +130,40 @@
                         def perceptron(x1, x2, w1, w2, b):
                             output = w1 * x1 + w2 * x2 + b
                             return activation(output)
-                        
+                        ```
+
+                        ```
                         # 테스트
                         print("AND Gate")
+                        print("x1 AND x2\t=activation(w1 * x1 + w2 * x2 + (b))\t=activation(w1*x1+w2*x2+b)\t={perceptron(x1, x2, w1, w2, b)}")
+                        w1, w2, b = 1, 1, -1.5
                         for x1 in [0, 1]:
                             for x2 in [0, 1]:
-                                print(f"{x1} AND {x2} = {perceptron(x1, x2, w1=1, w2=1, b=-1.5)}")
+                                print(f"{x1} AND {x2}\t\t=activation({w1} * {x1} + {w2} * {x2} + ({b}))\t=activation({w1*x1+w2*x2+b})\t\t={perceptron(x1, x2, w1, w2, b)}")
                         ```
                         
                                                 
                         ```text
                         AND Gate
-                        0 AND 0 = 0
-                        0 AND 1 = 0
-                        1 AND 0 = 0
-                        1 AND 1 = 1
+                        x1 AND x2 =activation(w1 * x1 + w2 * x2 + (b)) =activation(w1*x1+w2*x2+b) ={perceptron(x1, x2, w1, w2, b)}
+                        0 AND 0   =activation(1 * 0 + 1 * 0 + (-1.5))  =activation(-1.5)          =0
+                        0 AND 1   =activation(1 * 0 + 1 * 1 + (-1.5))  =activation(-0.5)          =0
+                        1 AND 0   =activation(1 * 1 + 1 * 0 + (-1.5))  =activation(-0.5)          =0
+                        1 AND 1   =activation(1 * 1 + 1 * 1 + (-1.5))  =activation(0.5)           =1
                         ```          
                         
                         [colab](https://colab.research.google.com/drive/19AaSvb__qePUEqO7pt1uZIe_oqu-jdOD#scrollTo=_rkxi1hk2mEu&line=1&uniqifier=1)
                         
                         --
-                        
-                        ## Perceptron
-
-                        ```python
-
-                        --
-                        
-                        Perceptron 예시:  
-                        - 가중치: w₁=1, w₂=1  
-                        - 편향: b = -1.5  
-                        - 활성화 함수: 계단 함수
-                        
-                        --
-                        
+                        ### 신경망을 학습하는 방법                        
+                        - 변경하기 어려움
+                            - 뉴런간 연결 구조: [graph structure](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics))
+                            - 뉴런의 활성 결정 방법: activation function
+                        - 변경하기 쉬움
+                            - 뉴런간 연결 강도: weight
+                            - 뉴런의 역치: bias / threshold
+                        - **신경망 학습 방법**: weight와 bias를 조정하여 목표 달성
+                        --                        
                         ### 어떻게 학습하는가?
                         
                         - **Epoch**: 전체 데이터를 몇 번 반복 학습할지  
@@ -158,18 +171,14 @@
                         - **Loss**: 정답과 출력값 차이  
                         - **Gradient Descent**: 오차를 줄이는 방향으로 가중치 수정  
                         - **Learning Rate**: 얼마나 조금씩 수정할지 결정
-                        
                         --
-                        
+                        ### 학습 code
+                        [colab](https://colab.research.google.com/drive/19AaSvb__qePUEqO7pt1uZIe_oqu-jdOD?usp=sharing)
+                        --
+                                                
                         ### 문제점: XOR 게이트는 퍼셉트론으로 해결 못 함 ❌
                         
-                        입력 | 출력  
-                        --|--  
-                        0, 0 | 0  
-                        0, 1 | 1  
-                        1, 0 | 1  
-                        1, 1 | 0
-                        
+                        ![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6UrwUJM2gFVeDlquO1DubA.png)
                         - 직선 하나로 나눌 수 없음 → 비선형 문제
                         
                         --
@@ -190,8 +199,6 @@
                         - 비선형: 곡선이나 복잡한 경계 필요  
                         - XOR 문제는 비선형 → MLP 필요
                         
-                        (시각화 이미지 삽입 가능)
-                        
                         --
                         
                         ### 실습: 시각화된 학습 (MLP 직접 체험해보기)
@@ -208,6 +215,178 @@
                     </script>
                 </section>
 
+                <section data-markdown data-separator="---$" data-separator-vertical="--">
+                    <script type="text/template">
+                        ## From LLM to Music Generation
+                        <img src=https://i.makeagif.com/media/5-27-2024/Laur2u.gif width=80%/>
+                        --
+                        ## 분류 (classification)
+                        - 주어진 데이터를 기준에 따라 분류하는 문제
+                        - 이진분류: Yes or No (AND Gate, XOR Gate)
+                        - Multi-Class 문제
+                            - n개 중에 고르시오
+                            - 난이도 상승
+                        --
+                        ## 빈칸추론 문제
+                        자료: 2019년 대학수학능력시험 영어영역
+                        ![](https://ws-choi.github.io/blog-kor/assets/postimages/Untitled-98c8d146-e5c4-4514-9031-fe79b4989bcf.png)                        
+                        --
+                        ## Multi-Class 문제
+                        - 5 번의 이진분류로 치환 가능
+                            - 1번인가 아닌가?
+                            - 2번인가 아닌가?
+                            - ...
+                            - 5번인가 아닌가?
+
+                        --
+                        ## Multi-Class 문제
+                        - 각각의 확률을 예측하는 문제
+                            - 1 번일 확률 0.9
+                            - 2 번일 확률 0.025
+                            - 3 번일 확률 0.025
+                            - 4 번일 확률 0.025
+                            - 5 번일 확률 0.025
+
+                        --
+                        ## Binary -> Multi class 일반화
+                        - [시그모이드](https://ko.wikipedia.org/wiki/%EC%8B%9C%EA%B7%B8%EB%AA%A8%EC%9D%B4%EB%93%9C_%ED%95%A8%EC%88%98) -> [소프트맥스](https://ko.wikipedia.org/wiki/%EC%86%8C%ED%94%84%ED%8A%B8%EB%A7%A5%EC%8A%A4_%ED%95%A8%EC%88%98)
+                            - ${\sigma(z)}\_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}$
+                        --
+                        ## 빈칸추론 문제: 20만선지다형
+                        자료: 2019년 대학수학능력시험 영어영역
+                        ![](https://ws-choi.github.io/blog-kor/assets/postimages/Untitled-98c8d146-e5c4-4514-9031-fe79b4989bcf.png)                        
+                        --
+                        ## Language Model
+                        - 주어진 문장에 대해 다음 단어를 예측하는 문제
+                        - 극한의 빈칸추론 문제 (5지선다형 -> 200,000지선다형)
+                        ![](https://miro.medium.com/v2/format:webp/1*QLA1jwTY0HBBpLBWfw_QaQ.png)
+                            - [출처](https://medium.com/@lmpo/mastering-llms-a-guide-to-decoding-algorithms-c90a48fd167b)
+                        - Large Language Model (LLM)
+                            - 많은 수의 파라미터를 가진 언어 모델
+
+                        --
+                        ## LLM이 문장을 생성하는 방법
+                        - Deep Learning is 
+                            1. powerful
+                            2. innovative
+                            3. complex
+                            4. weak
+                            5. limited
+                            6. very
+
+                            ...
+                            200000. am 
+                        --
+                            ## LLM이 문장을 생성하는 방법
+                        ![](https://miro.medium.com/v2/format:webp/0*m4UUxfHmuBVi988L.png)
+                            - [출처](https://medium.com/@lmpo/mastering-llms-a-guide-to-decoding-algorithms-c90a48fd167b)                        
+                        --
+                        ## LLM이 문장을 생성하는 방법
+                        <img src=https://i.makeagif.com/media/5-27-2024/Laur2u.gif width=80%/>
+                        --
+                        ## 여러분의 언어습관 LM
+                        스마트폰 자판기에 "야" 입력 후 자동완성 추천 단어 계속 클릭
+                        --
+                        ## LLM 학습하기
+                        - 임의의 빈칸 추론 문제를 만듦
+                            - 문장에 대해 다음 단어를 예측하는 문제
+                            - 이를테면 1억개의 문장에 대해 1억번의 빈칸추론 문제를 풀게 함
+                            - 사실은 더 많음 ㅎㅎ
+                        - 거대한 언어모델에게 이 문제를 풀게 함
+                            - 얼마나 거대하길래: 175 billion parameters in GPT3
+                        - [얼마나 많은 시간이 필요한가](https://www.reddit.com/r/GPT3/comments/p1xf10/how_many_days_did_it_take_to_train_gpt3_is/)?
+                            - It would take 355 years to train GPT-3 on a single NVIDIA Tesla V100 GPU.
+                            - Using 1,024x A100 GPUs, researchers calculated that OpenAI could have trained GPT-3 in as little as 34 days.
+                        --
+                        ## GPT and ChatGPT
+                        - [Generative pre-trained transformer](https://ko.wikipedia.org/wiki/GPT_(%EC%96%B8%EC%96%B4_%EB%AA%A8%EB%8D%B8))
+                        - [ChatGPT](https://ko.wikipedia.org/wiki/ChatGPT): GPT 기반 Chat bot
+                            - 언어모델: $$P(w_{n} | w_{n-1}, w_{n-2}, \cdots, w_1)$$
+                            - 대화모델: $$P(w_{n} | w_{n-1}, w_{n-2}, \cdots, w_1, q_m, q_{m-1}, \cdots, q_1)$$
+                        - 수학, 프로그래밍, Latex, ProteinGPT, ...
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="---$" data-separator-vertical="-1-">
+                    <script type="text/template">
+                        ## LLM을 음악 생성에 활용할 수 있을까?
+                        예상되는 문제점?
+                        -1-
+                        ## Continuous vs Discrete
+                        - LLM은 Discrete한 문제를 다룸: 단어, 문장, 문서 등등
+                            - 연속적인 문제를 다룰 수 없음
+                            - 예를 들어 음악은 연속적인 문제
+                                - 음의 높이, 길이, 세기 등등
+                        - 44.1kHz의 샘플링 주파수
+                            - 1초에 44100개의 샘플
+                            - 1분이면 2,646,000개의 샘플
+                        -1-
+                        ## LLM으로 음악생성하기
+                        - 음악을 기호로 표현하자
+                            - 방법 1: 악보, MIDI 등등
+                            - 방법 2: 음악을 음성으로 표현
+                        -1-
+                        ## 신경망 코덱
+                        ![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEga8Po-mwjqaOyRyhPnVQpokdRMiOCkQkswM_jHx-XYncxeqKL_o8OhNyFlllE5Kfntx9tSvIVj9E8ZNqUWofiW4n-RpiopBH-w91w5OM__-qHubpJJwtWWzBzFUy4xu3w7ZjTgLwOz0CSJg7NCnQldIN2FD1TCfLgOr2Gx7X_r9FLxSJy-HdUP5dos/s16000/Camp%20Compose%20(6).png)
+                        [SoundStream](https://opensource.googleblog.com/2022/09/lyra-v2-a-better-faster-and-more-versatile-speech-codec.html)
+                        -1-
+                        ## MusicGen's Codec
+                        ```python
+                        print(model.audio_encoder.encode(audio_values))
+                        EncodecEncoderOutput(audio_codes=tensor([[[[ 993, 1600, 1378,  ...,  388, 1894, 1122],
+                        [ 568,  942, 1602,  ..., 1329, 1534, 1941],
+                        [1647, 1866, 1139,  ...,  270, 1116,  259],
+                        [1208, 1296, 1744,  ...,   50,  365, 1365]],
+              
+                       [[ 330,  330,  948,  ..., 1690,   20, 1184],
+                        [1269,  263, 1066,  ...,  367, 1742, 1161],
+                        [1747, 2029, 2002,  ..., 1782, 1530,  732],
+                        [1945,  531,   56,  ..., 1417, 1519, 1344]]]], device='cuda:0'), audio_scales=[None])                        
+                        ```
+
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="---$" data-separator-vertical="-1-">
+                    <script type="text/template">
+                        ## Text-to-Music
+                        <iframe src="https://suno.com/embed/075bc579-2659-437a-b321-52173f0ed120" width="760" height="240"><a href="https://suno.com/song/075bc579-2659-437a-b321-52173f0ed120">Listen on Suno</a></iframe>
+                        -1-
+
+                        ## MusicGen
+                        - [MusicGen Project](https://audiocraft.metademolab.com/musicgen.html)
+                        - [Colab](https://colab.research.google.com/github/sanchit-gandhi/notebooks/blob/main/MusicGen.ipynb) by [Sanchit Gandhi](https://huggingface.co/sanchit-gandhi)
+                        - [오늘 실습](https://colab.research.google.com/drive/15qmKqGROuYkkNDME_E1fpx-WPQqtjzwz?usp=sharing)
+                        -1-
+
+                        ## MusicGen
+                        ![](https://scontent-nrt1-2.xx.fbcdn.net/v/t39.30808-6/481220236_1039207578239577_8417015782089896013_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8FS8Zju8OdYQ7kNvwHTY_Pr&_nc_oc=Adlqoj-jtY34BnEazAjnK4DYBVeZSD8Re90-lqWxU6t8mp8eJPLSrKh0fYXKUSdtfXg_gL_tFn9I8EfXO4gudA2V&_nc_zt=23&_nc_ht=scontent-nrt1-2.xx&_nc_gid=3VJNLlKp3CtxXTlea-f3dA&oh=00_AfK_5UA0EwDag7Uwh2kNzHnBhQ_iie-gLnyfgmFXoLJL6w&oe=6829C336)
+                        
+                        -1-
+                        ## Library 설치
+                        ```python
+                        !pip install --upgrade --quiet pip
+                        !pip install --upgrade --quiet transformers datasets[audio]
+                        ```
+                        -1-
+
+                        ## Model Load
+                        ```python
+                        from transformers import MusicgenForConditionalGeneration
+                        model = MusicgenForConditionalGeneration.from_pretrained("facebook/musicgen-small")
+                        ```
+                        -1-
+                        ## 음악 생성
+                        ```python
+                        unconditional_inputs = model.get_unconditional_inputs(num_samples=1)
+                        audio_values = model.generate(**unconditional_inputs, do_sample=True, max_new_tokens=256)
+                        ```                        
+                        -1-
+                        [실습](https://colab.research.google.com/drive/15qmKqGROuYkkNDME_E1fpx-WPQqtjzwz?usp=sharing)
+
+
+                    </script>
+                </section>
 
 
 
